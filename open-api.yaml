@@ -1,0 +1,2762 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: NotificationController_getNotificationsOfUser
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: fetched notifications for logged in user
+      security:
+        - bearer: []
+      tags:
+        - Notification
+    post:
+      operationId: TestExecutionController_uploadFile
+      parameters: []
+      responses:
+        '200':
+          description: upload document
+      security:
+        - bearer: []
+      tags:
+        - Test-Plan
+    put:
+      operationId: ProjectController_updateProjects
+      parameters: []
+      requestBody:
+        required: true
+        description: API will update the user to project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectDto'
+      responses:
+        '200':
+          description: User project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProjectDto'
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /redirect:
+    get:
+      operationId: GoogleAuthController_googleAuthRedirect
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /user-data:
+    get:
+      operationId: GoogleAuthController_protectedRoute
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /logout:
+    post:
+      operationId: GoogleAuthController_logout
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /fetchglobaluser:
+    get:
+      operationId: UserController_findGlobalser
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - User
+  /update-status:
+    put:
+      operationId: UserController_updateStatus
+      parameters: []
+      requestBody:
+        required: true
+        description: update status of the user!
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserActiveUpdateDto'
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - User
+  /{id}:
+    get:
+      operationId: TestSuitController_fetchAllTestSuitesById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fetch all Test suites by id
+      tags:
+        - Test Suit
+        - Test Suit
+      security:
+        - bearer: []
+    put:
+      operationId: TestSuitController_update
+      summary: Update a test suite
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTestSuiteDto'
+      responses:
+        '200':
+          description: Test suite updated successfully.
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /role:
+    post:
+      operationId: UserController_createRole
+      parameters: []
+      requestBody:
+        required: true
+        description: API will create Role
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleDto'
+      responses:
+        '200':
+          description: Created Role
+      security:
+        - bearer: []
+      tags:
+        - Role
+  /{id}/update-status:
+    put:
+      operationId: UserController_updateUserStatus
+      summary: Update user status (activate/deactivate)
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /{user_id}/update-details:
+    put:
+      operationId: UserController_updateUserDetails
+      summary: Update user details excluding status
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          description: User id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /bulkcreation:
+    post:
+      operationId: UserController_createUsers
+      summary: create user details excluding status
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /assign-project:
+    post:
+      operationId: ProjectController_addUserToProject
+      parameters: []
+      requestBody:
+        required: true
+        description: API will assign the user to project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectDto'
+      responses:
+        '200':
+          description: Assign user to Project
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /getprojectbyid/{id}:
+    get:
+      operationId: ProjectController_getProjectById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project will get with id
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /getprojectbyuserid/{user_id}:
+    get:
+      operationId: ProjectController_fetchProjectsByUser
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /upload-document:
+    post:
+      operationId: ProjectController_uploadFiles
+      parameters: []
+      responses:
+        '200':
+          description: upload document
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /upload-logo:
+    post:
+      operationId: ProjectController_logo
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /update-logo/{project_id}:
+    patch:
+      operationId: ProjectController_updateLogo
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /get-logo/{project_id}:
+    get:
+      operationId: ProjectController_getLogo
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /document:
+    get:
+      operationId: ProjectController_getDocument
+      parameters: []
+      responses:
+        '200':
+          description: upload document
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /soft-delete/{project_id}:
+    post:
+      operationId: ProjectController_softDeleteTestSuite
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /delete-logo/{project_id}:
+    delete:
+      operationId: ProjectController_softDeleteLogo
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /filter:
+    get:
+      operationId: ProjectController_filterProject
+      parameters: []
+      responses:
+        '200':
+          description: filtr project
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /dashboard:
+    get:
+      operationId: ProjectController_getDashboardInfo
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /project-users/{project_id}:
+    get:
+      operationId: ProjectController_fetchProjectUsers
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: fetch project users by project id
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /filtermember/{project_id}:
+    get:
+      operationId: ProjectController_filterAllProjectMember
+      parameters:
+        - name: user
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fetch all Projects with details
+      security:
+        - bearer: []
+      tags:
+        - Project
+  /all:
+    get:
+      operationId: ProjectModuleController_fetchAllModules
+      parameters: []
+      responses:
+        '200':
+          description: Get all modules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+      security:
+        - bearer: []
+      tags:
+        - Project/Module
+  /fetchmodulebyid:
+    get:
+      operationId: ProjectModuleController_fetchAllModulesByProjectId
+      parameters:
+        - name: project_id
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get modules by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+      security:
+        - bearer: []
+      tags:
+        - Project/Module
+  /update:
+    post:
+      operationId: UserStoryController_updateUserStory
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserStoryDto'
+      responses:
+        '200':
+          description: User story updated successfully.
+        '404':
+          description: User story not found.
+      tags:
+        - UserStory
+        - UserStory
+      security:
+        - bearer: []
+  /bulk-upload:
+    post:
+      operationId: UserStoryController_bulkUpload
+      parameters: []
+      requestBody:
+        required: true
+        description: CSV file for bulk upload
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileInterceptor'
+      responses:
+        '201':
+          description: Bulk upload success.
+      tags:
+        - UserStory
+        - UserStory
+        - UserStory
+      security:
+        - bearer: []
+  /by/{project_id}:
+    get:
+      operationId: UserStoryController_getAllUserstoriesonProject
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User story retrieved successfully.
+        '404':
+          description: User story not found.
+      tags:
+        - UserStory
+        - UserStory
+      security:
+        - bearer: []
+  /deletestory:
+    delete:
+      operationId: UserStoryController_bulkDeleteTestCases
+      parameters: []
+      responses:
+        '200':
+          description: 'bulk deleting '
+        '404':
+          description: User story not found.
+      tags:
+        - UserStory
+        - UserStory
+      security:
+        - bearer: []
+  /csv/{project_id}:
+    post:
+      operationId: BugTrackerController_BugReportDownload
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: API will Fetch Bug report!
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Fetch bug report
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /upload-story:
+    post:
+      operationId: UserStoryController_uploadCSV
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - UserStory
+      security:
+        - bearer: []
+  /upload-csv:
+    post:
+      operationId: TestCasesController_uploadCSV
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /bulk_uploader:
+    post:
+      operationId: TestCasesController_bulkUploader
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /getbyid/{id}:
+    get:
+      operationId: TestCasesController_getTestCaseById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: API will get testcases according to id
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: TestCases
+      security:
+        - bearer: []
+      tags:
+        - Test Case
+  /getbyprojectid/{project_id}:
+    get:
+      operationId: TestCasesController_getTestCaseByProjectId
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: TestCases
+      security:
+        - bearer: []
+      tags:
+        - Test Case
+  /bulk-delete:
+    delete:
+      operationId: TestSuitController_bulkDeleteTestsuit
+      parameters: []
+      requestBody:
+        required: true
+        description: API will Fetch user stories!
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/downloadCsvDto'
+      responses:
+        '200':
+          description: Fetch test suit report
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /csv:
+    post:
+      operationId: TestCasesController_uploadCsvFile
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /dummy:
+    post:
+      operationId: TestCasesController_uploadCsv
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /project/{project_id}:
+    get:
+      operationId: TestSuitController_fetchTestSuitesByProjectId
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fetch Test suites based on project_id
+      tags:
+        - Test Suit
+        - Test Suit
+      security:
+        - bearer: []
+  /{project_id}:
+    get:
+      operationId: TestExecutionController_fetchTestPlans
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fetch test plans based on project _id
+      security:
+        - bearer: []
+      tags:
+        - Test-Plan
+  /summary/{project_id}:
+    get:
+      operationId: ReportController_testSuitSummary
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fetch test suit report
+      security:
+        - bearer: []
+      tags:
+        - Report/Summary
+  /delete/{plan_id}:
+    delete:
+      operationId: TestExecutionController_softDeleteTestPlan
+      parameters:
+        - name: plan_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Test-Plan
+  /raise-a-bug:
+    post:
+      operationId: BugTrackerController_raiseABug
+      parameters: []
+      requestBody:
+        required: true
+        description: API will create a bug
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Bug Created Succesfully
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /upload-attachment:
+    post:
+      operationId: BugTrackerController_logo
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /getbugbyprojectid/{project_id}:
+    get:
+      operationId: BugTrackerController_getBugByProjectId
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: bugId
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: severity
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: start_date
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: assignee
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: labels
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: status
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: reporter
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: end_date
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bugtracker
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /update-bug-status/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBugStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: update-bug-status
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /get-comment-history/{bug_id}:
+    get:
+      operationId: BugTrackerController_fetchBugCommentHistory
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get bug's comment history by bug id
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /create-comment/{bug_id}:
+    post:
+      operationId: BugTrackerController_CommentHistory
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: create bug's comment
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /get-bug-details/{bug_id}:
+    get:
+      operationId: BugTrackerController_getBugDetails
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bugtracker
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /update-bug/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBug
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: update-bug
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /update-deferred-bug-status/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBugDeferredStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bug-deferred-status-updated
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /update-duplicate-bug-status/{bug_id}/{dup_bug_id}:
+    put:
+      operationId: BugTrackerController_updateDupBugApprovalStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: dup_bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bug-deferred-status-updated
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /fetchlabels:
+    get:
+      operationId: BugTrackerController_fetchlabels
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /mark-notification-as-read:
+    post:
+      operationId: NotificationController_markNotificationAsRead
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkNotificationDto'
+      responses:
+        '200':
+          description: successfully marked notification as read
+      security:
+        - bearer: []
+      tags:
+        - Notification
+  /graph/{project_id}/{graph_name}:
+    get:
+      operationId: ProjectAnalyticsController_getProjectAnalyticsGraph
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: graph_name
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: start_date
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: end_date
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: fetched project analytics successfully
+      security:
+        - bearer: []
+      tags:
+        - Project Analytics
+  /testcases/{project_id}:
+    get:
+      operationId: ProjectAnalyticsController_getProjectAnalyticsTescases
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: start_date
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: end_date
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: fetched project analytics successfully
+      security:
+        - bearer: []
+      tags:
+        - Project Analytics
+  /date-ranges:
+    get:
+      operationId: CommonController_getDateRanges
+      parameters: []
+      responses:
+        '200':
+          description: fetched date-ranges successfully
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /designation:
+    get:
+      operationId: CommonController_getDesignations
+      parameters: []
+      responses:
+        '200':
+          description: fetched designation-list successfully
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /get-presigned-url/{file_name}:
+    get:
+      operationId: CommonController_generateUrl
+      parameters:
+        - name: file_name
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: fileType
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /get-file-url:
+    post:
+      operationId: CommonController_uploadFiles
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /get-image-url:
+    post:
+      operationId: CommonController_uploadImages
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /aws/generateUrl/{fileName}:
+    get:
+      operationId: AwsController_generateUrl
+      parameters:
+        - name: fileName
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: fileType
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+  /api/v2:
+    get:
+      operationId: V2Controller_welcome
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Health
+  /api/v2/dummy/{param1}/{param2}:
+    get:
+      operationId: V2Controller_dummyEndpointGet
+      summary: Dummy Endpoint
+      description: A dummy endpoint for testing purposes.
+      parameters:
+        - name: param2
+          required: true
+          in: path
+          description: Second parameter for testing.
+          example: value2
+          schema: {}
+        - name: param1
+          required: true
+          in: path
+          description: First parameter for testing.
+          example: value1
+          schema: {}
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Health
+  /api/v2/dummy:
+    post:
+      operationId: V2Controller_dummyEndpointPost
+      summary: Dummy Endpoint
+      description: A dummy endpoint for testing purposes.
+      parameters: []
+      requestBody:
+        required: true
+        description: Dummy request body
+        content:
+          application/json:
+            schema:
+              properties:
+                stringProp:
+                  type: string
+                  example: string value
+                numberProp:
+                  type: number
+                  example: 123
+                booleanProp:
+                  type: boolean
+                  example: true
+                arrayProp:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - value1
+                    - value2
+                objectProp:
+                  type: object
+                  properties:
+                    subProp:
+                      type: string
+                  example:
+                    subProp: value
+              $ref: '#/components/schemas/'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Health
+  /api/v2/project:
+    post:
+      operationId: ProjectController_createProject
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectDto'
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+    get:
+      operationId: ProjectController_fetchAllProject
+      parameters:
+        - name: search
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: status
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/project/{project_id}:
+    put:
+      operationId: ProjectController_editProject
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditProjectDto'
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/project/{project_id}/history:
+    get:
+      operationId: ProjectController_getDocumentHistory
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/project/project-users/{project_id}:
+    get:
+      operationId: ProjectController_fetchProjectUsers
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/google:
+    get:
+      operationId: GoogleAuthController_googleAuth
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /api/v2/google/redirect:
+    get:
+      operationId: GoogleAuthController_googleAuthRedirect
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /api/v2/google/user-data:
+    get:
+      operationId: GoogleAuthController_protectedRoute
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /api/v2/google/logout:
+    post:
+      operationId: GoogleAuthController_logout
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Google/Auth
+  /api/v2/user:
+    post:
+      operationId: UserController_create
+      parameters: []
+      requestBody:
+        required: true
+        description: API will create user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '200':
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserDto'
+      security:
+        - bearer: []
+      tags:
+        - User
+    get:
+      operationId: UserController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: User Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserDto'
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/fetchglobaluser:
+    get:
+      operationId: UserController_findGlobalser
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/update-status:
+    put:
+      operationId: UserController_updateStatus
+      parameters: []
+      requestBody:
+        required: true
+        description: update status of the user!
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserActiveUpdateDto'
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/{id}:
+    get:
+      operationId: UserController_findById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: user_id
+          required: true
+          in: path
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserDto'
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/role:
+    post:
+      operationId: UserController_createRole
+      parameters: []
+      requestBody:
+        required: true
+        description: API will create Role
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleDto'
+      responses:
+        '200':
+          description: Created Role
+      security:
+        - bearer: []
+      tags:
+        - Role
+  /api/v2/user/{id}/update-status:
+    put:
+      operationId: UserController_updateUserStatus
+      summary: Update user status (activate/deactivate)
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          description: User id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/{user_id}/update-details:
+    put:
+      operationId: UserController_updateUserDetails
+      summary: Update user details excluding status
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          description: User id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/user/bulkcreation:
+    post:
+      operationId: UserController_createUsers
+      summary: create user details excluding status
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearer: []
+      tags:
+        - User
+  /api/v2/date-ranges:
+    get:
+      operationId: CommonController_getDateRanges
+      parameters: []
+      responses:
+        '200':
+          description: fetched date-ranges successfully
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /api/v2/designation:
+    get:
+      operationId: CommonController_getDesignations
+      parameters: []
+      responses:
+        '200':
+          description: fetched designation-list successfully
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /api/v2/get-presigned-url/{file_name}:
+    get:
+      operationId: CommonController_generateUrl
+      parameters:
+        - name: file_name
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: fileType
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /api/v2/get-file-url:
+    post:
+      operationId: CommonController_uploadFiles
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /api/v2/get-image-url:
+    post:
+      operationId: CommonController_uploadImages
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Common
+      security:
+        - bearer: []
+  /api/v2/s3-bucket/aws/generateUrl/{fileName}:
+    get:
+      operationId: AwsController_generateUrl
+      parameters:
+        - name: fileName
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: fileType
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+  /api/v2/user-story/create-userstory/{project_id}:
+    post:
+      operationId: UserStoryController_createStory
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserStoryDto'
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/user-story/bulk-userstories:
+    post:
+      operationId: UserStoryController_uploadCSV
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/user-story/csv/{project_id}:
+    post:
+      operationId: UserStoryController_userStoryDownload
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: API will Fetch user stories!
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Fetch test suit report
+      security:
+        - bearer: []
+  /api/v2/user-story/fetch-user-story:
+    get:
+      operationId: UserStoryController_fetchAllProject
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/user-story/update-userstory:
+    put:
+      operationId: UserStoryController_update
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/user-story/get-comment-history/{userstory_id}:
+    get:
+      operationId: UserStoryController_fetchBugCommentHistory
+      parameters:
+        - name: userstory_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get bug's comment history by bug id
+      security:
+        - bearer: []
+  /api/v2/testcase/create-testcase:
+    post:
+      operationId: TestCasesController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTestCaseDto'
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testcase/update-testcase:
+    put:
+      operationId: TestCasesController_updateTestCase
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testcase/getalltestcasebyprojectid/{project_id}:
+    get:
+      operationId: TestCasesController_getAllTestcaseByProjectid
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: module_id
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: search
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: testcase_id
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testcase/get-comment-history/{testcase_id}:
+    get:
+      operationId: TestCasesController_fetchBugCommentHistory
+      parameters:
+        - name: testcase_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testcase/upload-testcases:
+    post:
+      operationId: TestCasesController_uploadCSV
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testcase/download-testcase/{project_id}:
+    post:
+      operationId: TestCasesController_testCasesDownload
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+  /api/v2/testsuit/create-testsuite:
+    post:
+      operationId: TestSuitController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTestSuiteDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /api/v2/testsuit/get-testsuites/{project_id}:
+    get:
+      operationId: TestSuitController_fetchTestSuites
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /api/v2/testsuit/get-nestedtestcases/{project_id}:
+    get:
+      operationId: TestSuitController_getTestCases
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /api/v2/testsuit/update-testsuite:
+    put:
+      operationId: TestSuitController_updateTestCase
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Test Suit
+      security:
+        - bearer: []
+  /api/v2/bug-tracker/raise-a-bug:
+    post:
+      operationId: BugTrackerController_raiseABug
+      parameters: []
+      requestBody:
+        required: true
+        description: API will create a bug
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Bug Created Succesfully
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/upload-attachment:
+    post:
+      operationId: BugTrackerController_logo
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/getbugbyprojectid/{project_id}:
+    get:
+      operationId: BugTrackerController_getBugByProjectId
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: bugId
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: severity
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: priority
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: start_date
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: assignee
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: labels
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: status
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: reporter
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: end_date
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bugtracker
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/update-bug-status/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBugStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: update-bug-status
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/get-comment-history/{bug_id}:
+    get:
+      operationId: BugTrackerController_fetchBugCommentHistory
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get bug's comment history by bug id
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/create-comment/{bug_id}:
+    post:
+      operationId: BugTrackerController_CommentHistory
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: create bug's comment
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/get-bug-details/{bug_id}:
+    get:
+      operationId: BugTrackerController_getBugDetails
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bugtracker
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/update-bug/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBug
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: update-bug
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/update-deferred-bug-status/{bug_id}:
+    put:
+      operationId: BugTrackerController_updateBugDeferredStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bug-deferred-status-updated
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/update-duplicate-bug-status/{bug_id}/{dup_bug_id}:
+    put:
+      operationId: BugTrackerController_updateDupBugApprovalStatus
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: dup_bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: bug-deferred-status-updated
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/csv/{project_id}:
+    post:
+      operationId: BugTrackerController_BugReportDownload
+      parameters:
+        - name: project_id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: API will Fetch Bug report!
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Fetch bug report
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+  /api/v2/bug-tracker/fetchlabels:
+    get:
+      operationId: BugTrackerController_fetchlabels
+      parameters:
+        - name: bug_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearer: []
+      tags:
+        - Bug Tracker
+info:
+  title: TraQ
+  description: TraQ Api documentation
+  version: '1.0'
+  contact: {}
+tags:
+  - name: Health
+    description: ''
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateUserDto:
+      type: object
+      properties:
+        name:
+          type: string
+        email_id:
+          type: string
+        role:
+          type: string
+        status:
+          type: boolean
+        designition:
+          type: string
+      required:
+        - name
+        - email_id
+        - role
+        - status
+        - designition
+    UserActiveUpdateDto:
+      type: object
+      properties:
+        ids:
+          example:
+            - 65af91671178a1322547b560
+            - another-user-id
+            - ...
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          example: Deactivate/Activate
+      required:
+        - ids
+        - status
+    RoleDto:
+      type: object
+      properties:
+        role_name:
+          type: string
+      required:
+        - role_name
+    UserUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+        email_id:
+          type: string
+        role:
+          type: string
+        designation:
+          type: string
+      required:
+        - name
+        - email_id
+        - role
+        - designation
+    CreateProjectDto:
+      type: object
+      properties:
+        project_name:
+          type: string
+        project_code:
+          type: string
+        project_start_date:
+          type: string
+        project_description:
+          type: string
+        project_users:
+          type: array
+          items:
+            type: string
+        project_lead:
+          type: string
+        approver:
+          type: string
+        reviewer:
+          type: string
+        project_status:
+          type: string
+        logo_url:
+          type: string
+      required:
+        - project_name
+        - project_code
+        - project_start_date
+        - project_description
+        - project_users
+        - project_lead
+        - approver
+        - reviewer
+        - project_status
+        - logo_url
+    UpdateProjectDto:
+      type: object
+      properties:
+        project_id:
+          type: string
+        project_name:
+          type: string
+        project_code:
+          type: string
+        project_description:
+          type: string
+        start_date:
+          format: date-time
+          type: string
+        project_users:
+          type: array
+          items:
+            type: string
+        projectStatus:
+          type: string
+          example: In-Progress
+      required:
+        - project_id
+        - project_name
+        - project_code
+        - project_description
+        - start_date
+        - project_users
+        - projectStatus
+    Project:
+      type: object
+      properties: {}
+    CreateModuleDto:
+      type: object
+      properties:
+        project_id:
+          type: string
+        module_names:
+          type: array
+          items:
+            type: string
+      required:
+        - project_id
+        - module_names
+    moduleSuccessDto:
+      type: object
+      properties: {}
+    Module:
+      type: object
+      properties: {}
+    Modules:
+      type: object
+      properties:
+        module_id:
+          type: string
+        module_name:
+          type: string
+      required:
+        - module_id
+        - module_name
+    UpdateModuleDto:
+      type: object
+      properties:
+        project_id:
+          type: string
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Modules'
+        module_status:
+          type: object
+      required:
+        - project_id
+        - modules
+        - module_status
+    CreateUserStoryDto:
+      type: object
+      properties:
+        module_id:
+          type: string
+        title:
+          type: string
+        priority:
+          type: string
+        assigned_to:
+          type: string
+        created_by:
+          type: string
+        attachment:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        acceptance_criteria:
+          type: string
+        comment:
+          type: array
+          items:
+            type: string
+      required:
+        - module_id
+        - title
+        - priority
+        - assigned_to
+        - created_by
+        - attachment
+        - description
+        - acceptance_criteria
+        - comment
+    FileInterceptor:
+      type: object
+      properties: {}
+    UpdateUserStoryDto:
+      type: object
+      properties:
+        story_id:
+          type: string
+        project_id:
+          type: string
+        module_id:
+          type: string
+        user_story:
+          type: string
+        created_by:
+          type: string
+        priority:
+          type: string
+        description:
+          type: string
+        criteria:
+          type: string
+        userstory_Doc_link:
+          type: string
+        document_name:
+          type: string
+        status:
+          type: string
+          default: In-Progress
+      required:
+        - story_id
+        - project_id
+        - module_id
+        - user_story
+        - created_by
+        - priority
+        - description
+        - criteria
+        - userstory_Doc_link
+        - document_name
+        - status
+    downloadCsvDto:
+      type: object
+      properties:
+        id:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+    TestCaseDto:
+      type: object
+      properties:
+        test_case_id_count:
+          type: number
+        test_case_id:
+          type: string
+        test_case:
+          type: string
+        reviewer:
+          type: string
+        approver:
+          type: string
+        type:
+          type: string
+        approver_status:
+          type: string
+        status:
+          type: boolean
+        priority:
+          type: string
+        execution_status:
+          type: string
+        project_id:
+          type: string
+        pre_condition:
+          type: string
+        steps_to_execute:
+          type: string
+        expected_result:
+          type: string
+        actual_result:
+          type: string
+        comments:
+          type: string
+      required:
+        - test_case_id_count
+        - test_case_id
+        - test_case
+        - reviewer
+        - approver
+        - type
+        - approver_status
+        - status
+        - priority
+        - execution_status
+        - project_id
+        - pre_condition
+        - steps_to_execute
+        - expected_result
+        - actual_result
+        - comments
+    UpdateTestCaseDto:
+      type: object
+      properties:
+        test_case:
+          type: string
+        reviewer:
+          type: string
+        approver:
+          type: string
+        type:
+          type: string
+        approver_status:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        execution_status:
+          type: string
+        project_id:
+          type: string
+        pre_condition:
+          type: string
+        steps_to_execute:
+          type: string
+        expected_result:
+          type: string
+        actual_result:
+          type: string
+        comments:
+          type: string
+      required:
+        - test_case
+        - reviewer
+        - approver
+        - type
+        - approver_status
+        - status
+        - priority
+        - execution_status
+        - project_id
+        - pre_condition
+        - steps_to_execute
+        - expected_result
+        - actual_result
+        - comments
+    TestcaseDto:
+      type: object
+      properties:
+        test_case:
+          type: string
+          example: testcase1
+        status:
+          type: string
+          example: pass
+      required:
+        - test_case
+        - status
+    CreateTestSuiteDto:
+      type: object
+      properties:
+        project_id:
+          type: string
+        title:
+          type: string
+        reviewer:
+          type: string
+        approver:
+          type: string
+        status:
+          type: string
+        approver_status:
+          type: string
+        testcases:
+          type: array
+          items:
+            type: string
+        labels:
+          type: array
+          items:
+            type: string
+        is_deleted:
+          type: boolean
+        updated_by:
+          type: string
+      required:
+        - project_id
+        - title
+        - reviewer
+        - approver
+        - status
+        - approver_status
+        - testcases
+        - labels
+        - is_deleted
+        - updated_by
+    UpdateTestSuiteDto:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: project_id
+        title:
+          type: string
+          example: Title Example
+        labels:
+          type: string
+          example: Iphone
+        testcases:
+          example:
+            - test_case: testcase1
+              status: untested
+          type: array
+          items:
+            $ref: '#/components/schemas/TestcaseDto'
+      required:
+        - project_id
+        - title
+        - labels
+        - testcases
+    MarkNotificationDto:
+      type: object
+      properties: {}
+    ProjectDocumentDto:
+      type: object
+      properties:
+        name:
+          type: string
+        document_url:
+          type: string
+      required:
+        - name
+        - document_url
+    TestPlanDto:
+      type: object
+      properties:
+        name:
+          type: string
+        test_plan_url:
+          type: string
+      required:
+        - name
+        - test_plan_url
+    ProjectModuleEditDto:
+      type: object
+      properties:
+        module_id:
+          type: string
+        module_name:
+          type: string
+      required:
+        - module_id
+        - module_name
+    EditProjectDto:
+      type: object
+      properties:
+        project_name:
+          type: string
+        project_code:
+          type: string
+        project_start_date:
+          type: string
+        project_description:
+          type: string
+        project_users:
+          type: array
+          items:
+            type: string
+        project_lead:
+          type: string
+        project_status:
+          type: string
+        logo_url:
+          type: string
+        project_module:
+          type: string
+        project_document:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectDocumentDto'
+        test_plan:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestPlanDto'
+        project_module_edit:
+          $ref: '#/components/schemas/ProjectModuleEditDto'
+        project_document_delete:
+          type: string
+        test_plan_delete:
+          type: string
+      required:
+        - project_name
+        - project_code
+        - project_start_date
+        - project_description
+        - project_users
+        - project_lead
+        - project_status
+        - logo_url
+        - project_module
+        - project_document
+        - test_plan
+        - project_module_edit
+        - project_document_delete
+        - test_plan_delete
+    CreateTestCaseDto:
+      type: object
+      properties:
+        user_story_id:
+          type: string
+        module_id:
+          type: string
+        priority:
+          type: string
+        project_id:
+          type: string
+        title:
+          type: string
+        approval_status:
+          type: string
+        description:
+          type: string
+        approver:
+          type: string
+        reviewer:
+          type: string
+        type:
+          type: string
+        pre_condition:
+          type: string
+        steps_to_execute:
+          type: string
+        expected_result:
+          type: string
+        actual_result:
+          type: string
+        comment:
+          type: array
+          items:
+            type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        is_deleted:
+          type: boolean
+      required:
+        - user_story_id
+        - module_id
+        - priority
+        - project_id
+        - title
+        - approval_status
+        - description
+        - approver
+        - reviewer
+        - type
+        - pre_condition
+        - steps_to_execute
+        - expected_result
+        - actual_result
+        - comment
+        - created_at
+        - updated_at
+        - is_deleted
